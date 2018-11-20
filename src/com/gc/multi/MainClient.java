@@ -9,7 +9,8 @@ public class MainClient {
 		//test2();
 		//test3();
 		//test4();
-		Instance.startNoVolatile();
+		//Instance.startNoVolatile();
+		Instance.startWaitNotify();
 	}
 	//1：不同的对象，普通锁，可同时访问，
 	private static void test1(){
