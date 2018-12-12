@@ -21,7 +21,6 @@ public class LockInterruptiblyRunnable implements Runnable {
         }
     }
 
-
     public void invokeM() throws InterruptedException {
         lock.lockInterruptibly();
         try {
