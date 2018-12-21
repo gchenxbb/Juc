@@ -17,54 +17,64 @@ public class Instance {
     //1：普通锁，不同的对象，可同时访问
     public static void testDifObjNormalLock() {
         final TestSynchronized so1 = new TestSynchronized();
-        TestSynchronized so2 = new TestSynchronized();
+        final TestSynchronized so2 = new TestSynchronized();
         new Thread(new Runnable() {
             public void run() {
                 so1.syncA();
             }
-
         }).start();
-        so2.syncA();
+        new Thread(new Runnable() {
+            public void run() {
+                so2.syncA();
+            }
+        }).start();
     }
 
     // 2：普通锁，相同对象，不同的加锁代码块，不能同时访问
     public static void testEqualObjDifChunk() {
         final TestSynchronized so1 = new TestSynchronized();
         new Thread(new Runnable() {
-
             public void run() {
                 so1.syncA();
             }
-
         }).start();
-        so1.syncB();
+
+        new Thread(new Runnable() {
+            public void run() {
+                so1.syncB();
+            }
+        }).start();
     }
 
     //3：静态锁，不同对象，相同方法，不能同时访问
     public static void testStaDifObj() {
         final TestSynchronized so1 = new TestSynchronized();
-        TestSynchronized so2 = new TestSynchronized();
+        final TestSynchronized so2 = new TestSynchronized();
         new Thread(new Runnable() {
-
             public void run() {
                 so1.syncStaticA();
             }
-
         }).start();
-        so2.syncStaticA();
+        new Thread(new Runnable() {
+            public void run() {
+                so2.syncStaticA();
+            }
+        }).start();
     }
 
     //4：静态锁，不同对象，不同的加锁代码块，不能同时访问
     public static void testStaDifObjChunk() {
         final TestSynchronized so1 = new TestSynchronized();
         new Thread(new Runnable() {
-
             public void run() {
                 so1.syncStaticA();
             }
-
         }).start();
-        TestSynchronized.syncStaticB();
+        new Thread(new Runnable() {
+            public void run() {
+                TestSynchronized.syncStaticB();
+            }
+        }).start();
     }
 
 

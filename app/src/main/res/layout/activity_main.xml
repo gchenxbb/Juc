@@ -79,6 +79,14 @@
             android:gravity="center"
             android:text="lock中断测试"
             android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/btn_dead_lock"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:text="点我死锁！"
+            android:textSize="10sp" />
     </LinearLayout>
 
     <TextView

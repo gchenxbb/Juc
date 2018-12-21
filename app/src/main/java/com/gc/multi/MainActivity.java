@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.gc.multi.deadlock.DeadLockUtils;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -55,7 +57,7 @@ public class MainActivity extends Activity {
     }
 
 
-    @OnClick({R.id.btn_volatile, R.id.btn_wait_notify, R.id.btn_lock, R.id.btn_lock_interrupt,
+    @OnClick({R.id.btn_volatile, R.id.btn_wait_notify, R.id.btn_lock, R.id.btn_lock_interrupt,R.id.btn_dead_lock,
             R.id.btn_synchronized_1, R.id.btn_synchronized_2, R.id.btn_synchronized_3, R.id.btn_synchronized_4})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -82,6 +84,9 @@ public class MainActivity extends Activity {
                 break;
             case R.id.btn_lock_interrupt:
                 Instance.startLockInterruptibly();
+                break;
+            case R.id.btn_dead_lock:
+                DeadLockUtils.deadLock();
                 break;
         }
     }
