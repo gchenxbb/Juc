@@ -119,11 +119,15 @@ public class Instance {
     //wait_notify
     public static void startWaitNotify() {
         //线程1
-        final TaskRunnable taskRunnable = new TaskRunnable();
+        final WaitNotifyRunnable taskRunnable = new WaitNotifyRunnable();
         Thread thread = new Thread(taskRunnable);
         thread.start();
+        Thread thread2 = new Thread(taskRunnable);
+        thread2.start();
+        Thread thread3 = new Thread(taskRunnable);
+        thread3.start();
 
-        //线程2
+        //线程4
         Thread second = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -135,14 +139,6 @@ public class Instance {
             }
         });
         second.start();
-
-        //线程2运行secondMethod函数。打印信息后，先wait等待被唤醒。这时线程0还在休眠。
-        //线程1休眠，线程2先拿到锁
-        //线程2拿到锁，先sleep，再wait，sleep并不会释放对象锁。线程1休眠结束，等待锁。
-        //线程2wait时，释放锁。
-        //线程1，得到锁，修改内容，通知线程2唤醒
-        //线程2，修改内容
-
     }
 
 

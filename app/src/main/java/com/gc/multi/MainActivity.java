@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.gc.multi.deadlock.DeadLockUtils;
+//import com.gc.multi.deadlock.DeadLockUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -86,7 +86,7 @@ public class MainActivity extends Activity {
                 Instance.startLockInterruptibly();
                 break;
             case R.id.btn_dead_lock:
-                DeadLockUtils.deadLock();
+//                DeadLockUtils.deadLock();
                 break;
         }
     }
