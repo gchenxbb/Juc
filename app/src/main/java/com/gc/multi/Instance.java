@@ -16,16 +16,14 @@ public class Instance {
 
     //1：普通锁，不同的对象，可同时访问
     public static void testDifObjNormalLock() {
-        final TestSynchronized so1 = new TestSynchronized();
-        final TestSynchronized so2 = new TestSynchronized();
         new Thread(new Runnable() {
             public void run() {
-                so1.syncA();
+                new TestSynchronized().syncA();
             }
         }).start();
         new Thread(new Runnable() {
             public void run() {
-                so2.syncA();
+                new TestSynchronized().syncA();
             }
         }).start();
     }
@@ -48,26 +46,23 @@ public class Instance {
 
     //3：静态锁，不同对象，相同方法，不能同时访问
     public static void testStaDifObj() {
-        final TestSynchronized so1 = new TestSynchronized();
-        final TestSynchronized so2 = new TestSynchronized();
         new Thread(new Runnable() {
             public void run() {
-                so1.syncStaticA();
+                new TestSynchronized().syncStaticA();
             }
         }).start();
         new Thread(new Runnable() {
             public void run() {
-                so2.syncStaticA();
+                new TestSynchronized().syncStaticA();
             }
         }).start();
     }
 
     //4：静态锁，不同对象，不同的加锁代码块，不能同时访问
     public static void testStaDifObjChunk() {
-        final TestSynchronized so1 = new TestSynchronized();
         new Thread(new Runnable() {
             public void run() {
-                so1.syncStaticA();
+                new TestSynchronized().syncStaticA();
             }
         }).start();
         new Thread(new Runnable() {
@@ -77,6 +72,75 @@ public class Instance {
         }).start();
     }
 
+    //wait_notify
+    public static void startWaitNotify() {
+        //线程1
+        final WaitNotifyRunnable taskRunnable = new WaitNotifyRunnable();
+        Thread thread = new Thread(taskRunnable);
+        thread.start();
+        Thread thread2 = new Thread(taskRunnable);
+        thread2.start();
+        Thread thread3 = new Thread(taskRunnable);
+        thread3.start();
+
+        //线程4
+        Thread second = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    taskRunnable.secondMethod();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        second.start();
+    }
+
+    //lock
+    public static void startLock() {
+        //线程1
+        LockRunnable lockRunnable = new LockRunnable();
+        Thread one = new Thread(lockRunnable);
+        one.start();
+        try {
+            //确保one先竞争到锁
+            Thread.sleep(500);
+        }catch (Exception e){
+        }
+        //线程2
+        Thread two = new Thread(lockRunnable);
+        two.start();
+
+        try {
+            //让竞争锁失败而休眠的2线程中断。线程2仍会休眠，线程1释放锁后，线程2竞争到锁，执行时sleep会检查到中断状态，异常
+            Thread.sleep(1000);
+            two.interrupt();
+        }catch (Exception e){
+        }
+    }
+
+    //lock，中断
+    public static void startLockInterruptibly() {
+        //线程1
+        final LockInterruptiblyRunnable lockInterrRunnable = new LockInterruptiblyRunnable();
+        Thread one = new Thread(lockInterrRunnable);
+        one.start();
+        try {
+            Thread.sleep(500);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Thread two = new Thread(lockInterrRunnable);
+        two.start();
+
+        try {
+            Thread.sleep(3000);
+            two.interrupt();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     //volatile关键字
     public static void startNoVolatile() {
@@ -114,80 +178,6 @@ public class Instance {
                 Log.d(TAG, Thread.currentThread().getName() + " 线程2更改初始值为：" + instance.mInitvalue + "\n");
             }
         }).start();
-    }
-
-    //wait_notify
-    public static void startWaitNotify() {
-        //线程1
-        final WaitNotifyRunnable taskRunnable = new WaitNotifyRunnable();
-        Thread thread = new Thread(taskRunnable);
-        thread.start();
-        Thread thread2 = new Thread(taskRunnable);
-        thread2.start();
-        Thread thread3 = new Thread(taskRunnable);
-        thread3.start();
-
-        //线程4
-        Thread second = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    taskRunnable.secondMethod();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        second.start();
-    }
-
-
-    //lock
-    public static void startLock() {
-        //线程1
-        final LockRunnable lockRunnable = new LockRunnable();
-        Thread one = new Thread(lockRunnable);
-        one.start();
-
-        //线程2
-        Thread second = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    lockRunnable.run();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        second.start();
-    }
-
-
-    //lock，中断
-    public static void startLockInterruptibly() {
-        //线程1
-        final LockInterruptiblyRunnable lockInterrRunnable = new LockInterruptiblyRunnable();
-        Thread one = new Thread(lockInterrRunnable);
-        one.start();
-        //线程2
-        final Thread second = new Thread(lockInterrRunnable);
-        second.start();
-
-        //线程2在等待lock锁时，被中断
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(3000);
-                    second.interrupt();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-
-
     }
 
 }
