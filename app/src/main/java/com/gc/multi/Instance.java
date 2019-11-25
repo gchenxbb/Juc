@@ -106,7 +106,7 @@ public class Instance {
         try {
             //确保one先竞争到锁
             Thread.sleep(500);
-        }catch (Exception e){
+        } catch (Exception e) {
         }
         //线程2
         Thread two = new Thread(lockRunnable);
@@ -116,7 +116,7 @@ public class Instance {
             //让竞争锁失败而休眠的2线程中断。线程2仍会休眠，线程1释放锁后，线程2竞争到锁，执行时sleep会检查到中断状态，异常
             Thread.sleep(1000);
             two.interrupt();
-        }catch (Exception e){
+        } catch (Exception e) {
         }
     }
 
@@ -180,4 +180,49 @@ public class Instance {
         }).start();
     }
 
+
+    /**
+     * 两个线程AB
+     */
+    public static void join() {
+        final Thread threadB = new ThreadB();
+        final Thread threadA = new ThreadA(threadB);
+        threadA.setName("threadA");
+        threadB.setName("threadB");
+        threadA.start();
+        threadB.start();
+
+
+        Thread threadC = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    threadA.join();//等ab执行完，再执行c
+                    threadB.join();
+                } catch (Exception e) {
+                }
+
+                for (int i = 0; i < 10; i++) {
+                    Log.d(TAG, Thread.currentThread().getName() + " loop in " + i);
+                }
+
+                Log.d(TAG, Thread.currentThread().getName() + " Thread end");
+            }
+        });
+        threadC.setName("threadC");
+        threadC.start();
+    }
+
+
+    /**
+     *
+     */
+    public static void yeild() {
+        final Thread threadYeild1 = new YeildThread();
+        final Thread threadYeild2 = new YeildThread();
+        threadYeild1.setName("threadYeild1");
+        threadYeild2.setName("threadYeild2");
+        threadYeild1.start();
+        threadYeild2.start();
+    }
 }
