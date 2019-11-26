@@ -225,4 +225,13 @@ public class Instance {
         threadYeild1.start();
         threadYeild2.start();
     }
+
+    public static void alternatePrint() {
+        AlternateRunnable alternateRunnable = new AlternateRunnable();
+        Thread thread1 = new Thread(alternateRunnable);
+        Thread thread2 = new Thread(alternateRunnable);
+
+        thread1.start();
+        thread2.start();
+    }
 }

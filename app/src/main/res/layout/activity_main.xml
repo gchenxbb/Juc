@@ -108,6 +108,14 @@
                 android:gravity="center"
                 android:text="joinh和yeild方法！"
                 android:textSize="10sp" />
+
+            <Button
+                android:id="@+id/btn_alternate"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:text="交替打印0-100数字！"
+                android:textSize="10sp" />
         </LinearLayout>
 
     </ScrollView>
