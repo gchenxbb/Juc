@@ -57,9 +57,10 @@ public class MainActivity extends Activity {
     }
 
 
-    @OnClick({R.id.btn_volatile, R.id.btn_wait_notify, R.id.btn_lock, R.id.btn_lock_interrupt, R.id.btn_dead_lock,
-            R.id.btn_synchronized_1, R.id.btn_synchronized_2, R.id.btn_synchronized_3, R.id.btn_synchronized_4,
-            R.id.btn_yeild, R.id.btn_join, R.id.btn_alternate})
+    @OnClick({R.id.btn_volatile, R.id.btn_wait_notify, R.id.btn_lock, R.id.btn_lock_interrupt,
+            R.id.btn_interrupt, R.id.btn_dead_lock, R.id.btn_synchronized_1, R.id.btn_synchronized_2,
+            R.id.btn_synchronized_3, R.id.btn_synchronized_4, R.id.btn_yeild, R.id.btn_join,
+            R.id.btn_alternate})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_synchronized_1:
@@ -85,6 +86,9 @@ public class MainActivity extends Activity {
                 break;
             case R.id.btn_lock_interrupt:
                 Instance.startLockInterruptibly();
+                break;
+            case R.id.btn_interrupt:
+                Instance.startInterruptibly();
                 break;
             case R.id.btn_join:
                 Instance.join();

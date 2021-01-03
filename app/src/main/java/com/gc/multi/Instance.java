@@ -3,9 +3,6 @@ package com.gc.multi;
 
 import android.util.Log;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 public class Instance {
     private static long mSleepInterval = 1000;
     public int mInitvalue = 500;
@@ -140,6 +137,34 @@ public class Instance {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    //lock，中断
+    public static void startInterruptibly() {
+        //线程1
+        final InterruptiblyRunnable lockInterrRunnable = new InterruptiblyRunnable();
+        final Thread oneThread = new Thread(lockInterrRunnable);
+        oneThread.start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                /**
+                 * 休眠时 interrupt()
+                 */
+//                try {
+//                    Thread.sleep(8000);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//
+                /**
+                 * 运行时 interrupt()
+                 */
+                oneThread.interrupt();
+            }
+        }).start();
     }
 
     //volatile关键字
