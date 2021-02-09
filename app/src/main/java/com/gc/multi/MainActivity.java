@@ -1,6 +1,7 @@
 package com.gc.multi;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 //import com.gc.multi.deadlock.DeadLockUtils;
+
+import com.gc.multi.asynctask.MainAsyncTaskActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,7 +63,7 @@ public class MainActivity extends Activity {
     @OnClick({R.id.btn_volatile, R.id.btn_wait_notify, R.id.btn_lock, R.id.btn_lock_interrupt,
             R.id.btn_interrupt, R.id.btn_dead_lock, R.id.btn_synchronized_1, R.id.btn_synchronized_2,
             R.id.btn_synchronized_3, R.id.btn_synchronized_4, R.id.btn_yeild, R.id.btn_join,
-            R.id.btn_alternate})
+            R.id.btn_alternate, R.id.btn_asynctask})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_synchronized_1:
@@ -98,6 +101,9 @@ public class MainActivity extends Activity {
                 break;
             case R.id.btn_alternate:
                 Instance.alternatePrint();
+                break;
+            case R.id.btn_asynctask:
+                startActivity(new Intent(MainActivity.this, MainAsyncTaskActivity.class));
                 break;
             case R.id.btn_dead_lock:
 //                DeadLockUtils.deadLock();
