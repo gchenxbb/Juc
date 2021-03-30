@@ -17,6 +17,7 @@
         </activity>
 
         <activity android:name=".asynctask.MainAsyncTaskActivity" />
+        <activity android:name=".threadlocal.ThreadLocalActivity" />
     </application>
 
 </manifest>
