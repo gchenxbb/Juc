@@ -3,6 +3,15 @@ package com.gc.multi;
 
 import android.util.Log;
 
+import com.gc.multi.interrupt.InterruptiblyRunnable;
+import com.gc.multi.interrupt.LockInterruptiblyRunnable;
+import com.gc.multi.join.ThreadA;
+import com.gc.multi.join.ThreadB;
+import com.gc.multi.lock.LockRunnable;
+import com.gc.multi.synchronize.TestSynchronized;
+import com.gc.multi.wait.WaitNotifyRunnable;
+import com.gc.multi.yeild.YeildThread;
+
 public class Instance {
     private static long mSleepInterval = 1000;
     public int mInitvalue = 500;

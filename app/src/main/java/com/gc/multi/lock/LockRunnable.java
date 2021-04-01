@@ -1,4 +1,4 @@
-package com.gc.multi;
+package com.gc.multi.lock;
 
 import android.util.Log;
 

@@ -1,15 +1,25 @@
-package com.gc.multi;
+package com.gc.multi.join;
 
 import android.util.Log;
 
-public class ThreadB extends Thread {
+public class ThreadA extends Thread {
     public static String TAG = "Instance_";
+    Thread threadB;
+
+    public ThreadA(Thread threadB) {
+        this.threadB = threadB;
+    }
 
     @Override
     public void run() {
         super.run();
         try {
-            Thread.sleep(3000);
+            threadB.join();//等b执行完，再执行a线程
+        } catch (Exception e) {
+
+        }
+        try {
+            Thread.sleep(2000);
         } catch (Exception e) {
 
         }
@@ -19,5 +29,4 @@ public class ThreadB extends Thread {
         }
         Log.d(TAG, Thread.currentThread().getName() + " Thread end");
     }
-
 }

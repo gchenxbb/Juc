@@ -1,4 +1,4 @@
-package com.gc.multi;
+package com.gc.multi.synchronize;
 
 import android.util.Log;
 
